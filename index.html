@@ -41004,8 +41004,8 @@ function renderCards() {
     const durationHours = parseInt(item.duration);
     const dayFraction = durationHours / 24;  // 8小時 = 1/3天
     const totalBudget = Math.round(avgDailyBudget * dayFraction);
-    const extra = departureCosts[activeDeparture] || 0;
-    const transportCost = Math.round(avgDailyBudget * 0.3 * dayFraction) + extra;
+    const roundTripExtra = (departureCosts[activeDeparture] || 0) * 2;  // 往返
+    const transportCost = Math.round(avgDailyBudget * 0.3 * dayFraction) + roundTripExtra;
 
     return `
       <div class="card" onclick="showDetail(${item.id})">
@@ -41042,8 +41042,8 @@ function showDetail(id) {
   const durationHours = parseInt(item.duration);
   const dayFraction = durationHours / 24;
   const totalBudget = Math.round(avgDailyBudget * dayFraction);
-  const extra = departureCosts[activeDeparture] || 0;
-  const transportCost = Math.round(avgDailyBudget * 0.3 * dayFraction) + extra;
+  const roundTripExtra = (departureCosts[activeDeparture] || 0) * 2;  // 往返
+  const transportCost = Math.round(avgDailyBudget * 0.3 * dayFraction) + roundTripExtra;
 
   const html = `
     <div class="modal-title">${item.title}</div>
