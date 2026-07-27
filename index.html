@@ -41000,17 +41000,23 @@ function renderCards() {
 
   grid.innerHTML = filtered.map(item => {
     const adj = getAdjustedBudget(item);
-    const avgBudget = Math.round((adj.low + adj.high) / 2);
+    const avgDailyBudget = Math.round((adj.low + adj.high) / 2);
+    const durationDays = parseInt(item.duration);
+    const totalBudget = avgDailyBudget * durationDays;
     const extra = departureCosts[activeDeparture] || 0;
+    const transportCost = Math.round(avgDailyBudget * 0.3 * durationDays) + extra;
 
     return `
       <div class="card" onclick="showDetail(${item.id})">
         <div class="card-title">${item.title}</div>
         <div class="card-meta">
           <span>🕐 ${item.duration}</span>
-          <span>💰 NT$${avgBudget}</span>${extra > 0 ? `<span style="font-size: 0.75rem; color: #e67e22;">含出發地調整</span>` : ''}
+          <span>💰 NT$${totalBudget.toLocaleString()}</span>
         </div>
         <span class="card-region">${item.region}</span>
+        <div style="font-size: 0.85rem; margin: 8px 0; padding: 8px; background: #f9f9f9; border-radius: 4px;">
+          <strong style="color: #c0392b;">🚌 ${item.transport}</strong> — NT$${transportCost.toLocaleString()}
+        </div>
         <div class="card-stops">
           ${item.stops.slice(0, 4).map(s => `
             <div class="stop-item">
@@ -41031,39 +41037,43 @@ function showDetail(id) {
   if (!item) return;
 
   const budget = parseBudget(item.budget);
-  const avgBudget = Math.round((budget.low + budget.high) / 2);
+  const avgDailyBudget = Math.round((budget.low + budget.high) / 2);
+  const durationDays = parseInt(item.duration);
+  const totalBudget = avgDailyBudget * durationDays;
+  const extra = departureCosts[activeDeparture] || 0;
+  const transportCost = Math.round(avgDailyBudget * 0.3 * durationDays) + extra;
 
   const html = `
     <div class="modal-title">${item.title}</div>
     <div class="cost-detail">
       <strong>⏱️ 時間：</strong> ${item.duration}<br>
-      <strong>💰 預算：</strong> ${item.budget} (估計：NT$${avgBudget})<br>
+      <strong>💰 每日預算：</strong> NT$${avgDailyBudget} × ${durationDays} 天<br>
       <strong>🌍 地區：</strong> ${item.region}<br>
-      <strong>🚌 交通：</strong> ${item.transport}
+      <strong>🚌 交通：</strong> ${item.transport} → <strong>約 NT$${transportCost.toLocaleString()}</strong>
     </div>
 
     <div style="background: linear-gradient(135deg, #fff5f7, #f0e6ff); padding: 16px; border-radius: 8px; margin: 12px 0; border-left: 4px solid #c0392b;">
-      <strong>💰 費用明細（每日）</strong><br>
+      <strong>💰 費用明細（共 ${durationDays} 天）</strong><br>
       <div style="margin-top: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 0.9rem;">
         <div>
           <strong style="color: #c0392b;">🚌 交通</strong><br>
-          約 NT$${Math.round(avgBudget * 30 * 0.3).toLocaleString()}
+          約 NT$${transportCost.toLocaleString()}
         </div>
         <div>
           <strong style="color: #c0392b;">🍽️ 餐飲</strong><br>
-          約 NT$${Math.round(avgBudget * 30 * 0.4).toLocaleString()}
+          約 NT$${Math.round(totalBudget * 0.4).toLocaleString()}
         </div>
         <div>
           <strong style="color: #c0392b;">🎫 景點門票</strong><br>
-          約 NT$${Math.round(avgBudget * 30 * 0.2).toLocaleString()}
+          約 NT$${Math.round(totalBudget * 0.2).toLocaleString()}
         </div>
         <div>
           <strong style="color: #c0392b;">🏨 住宿/其他</strong><br>
-          約 NT$${Math.round(avgBudget * 30 * 0.1).toLocaleString()}
+          約 NT$${Math.round(totalBudget * 0.1).toLocaleString()}
         </div>
       </div>
       <div style="margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(192,57,43,0.2); text-align: center;">
-        <strong style="color: #c0392b; font-size: 1.1rem;">💵 每日預算：NT$${Math.round(avgBudget * 30).toLocaleString()}</strong>
+        <strong style="color: #c0392b; font-size: 1.1rem;">💵 預算總額：NT$${totalBudget.toLocaleString()}</strong>
       </div>
     </div>
 
