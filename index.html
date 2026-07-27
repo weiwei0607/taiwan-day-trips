@@ -41071,7 +41071,7 @@ function showDetail(id) {
     <div class="modal-title">${item.title}</div>
     <div class="cost-detail">
       <strong>⏱️ 時間：</strong> ${item.duration}<br>
-      <strong>💰 每日預算：</strong> NT$${avgDailyBudget} (${durationHours}小時行程)<br>
+      <strong>💰 行程預算：</strong> NT$${tripBudget.toLocaleString()}<br>
       <strong>🌍 地區：</strong> ${item.region}<br>
       <strong>🚌 交通：</strong> ${item.transport} → <strong>約 NT$${transportCost.toLocaleString()}</strong>
     </div>
