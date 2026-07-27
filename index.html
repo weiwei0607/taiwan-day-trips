@@ -1,330 +1,278 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>台灣一日遊行程大全｜從板橋土城出發</title>
-<style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Noto Sans TC', sans-serif; background: #f5f0eb; color: #2d2d2d; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>台灣一日遊行程大全</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Noto Sans TC', sans-serif; background: #f5f0eb; color: #333; }
 
-  header {
-    background: linear-gradient(135deg, #c0392b, #8e1a1a);
-    color: white;
-    padding: 28px 20px 20px;
-    text-align: center;
-  }
-  header h1 { font-size: 1.8rem; margin-bottom: 6px; }
-  header p { font-size: 0.9rem; opacity: 0.85; margin-bottom: 16px; }
+    header {
+      background: linear-gradient(135deg, #c0392b, #8e1a1a);
+      color: white;
+      padding: 24px 20px;
+      text-align: center;
+    }
+    header h1 { font-size: 1.8rem; margin-bottom: 8px; }
+    header p { opacity: 0.9; font-size: 0.95rem; }
 
-  .lucky-btn {
-    display: inline-block;
-    background: white;
-    color: #c0392b;
-    border: none;
-    padding: 10px 24px;
-    border-radius: 24px;
-    font-size: 1rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.2s;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.2);
-  }
-  .lucky-btn:hover { transform: scale(1.05); box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
-  .lucky-btn:active { transform: scale(0.97); }
+    .toolbar {
+      background: white;
+      padding: 12px 20px;
+      border-bottom: 1px solid #ddd;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
 
-  .stats {
-    background: white;
-    text-align: center;
-    padding: 10px;
-    font-size: 0.85rem;
-    color: #666;
-    border-bottom: 1px solid #e0d8d0;
-  }
+    .search-box {
+      flex: 1;
+      min-width: 200px;
+      display: flex;
+      gap: 8px;
+    }
 
-  .filters {
-    background: white;
-    padding: 16px 20px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    border-bottom: 2px solid #e0d8d0;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  }
-  .filter-group { margin-bottom: 10px; }
-  .filter-label { font-size: 0.75rem; color: #888; margin-bottom: 6px; font-weight: 600; letter-spacing: 0.5px; }
-  .filter-buttons { display: flex; flex-wrap: wrap; gap: 6px; }
-  .btn {
-    padding: 5px 12px;
-    border: 1.5px solid #ccc;
-    border-radius: 20px;
-    background: white;
-    font-size: 0.8rem;
-    cursor: pointer;
-    transition: all 0.15s;
-    color: #555;
-  }
-  .btn:hover { border-color: #c0392b; color: #c0392b; }
-  .btn.active { background: #c0392b; border-color: #c0392b; color: white; font-weight: 600; }
-  .btn-blue:hover { border-color: #2980b9; color: #2980b9; }
-  .btn-blue.active { background: #2980b9; border-color: #2980b9; color: white; font-weight: 600; }
-  .btn-green:hover { border-color: #27ae60; color: #27ae60; }
-  .btn-green.active { background: #27ae60; border-color: #27ae60; color: white; font-weight: 600; }
+    .search-box input {
+      flex: 1;
+      padding: 8px 12px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 0.95rem;
+    }
 
-  .btn-pink:hover { border-color: #e91e8c; color: #e91e8c; }
-  .btn-pink.active { background: #e91e8c; border-color: #e91e8c; color: white; font-weight: 600; }
+    .lucky-btn {
+      background: #c0392b;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
 
-  .solo-badge {
-    display: inline-block;
-    font-size: 0.68rem;
-    padding: 2px 7px;
-    background: #fce4f3;
-    color: #b5006b;
-    border-radius: 10px;
-    font-weight: 700;
-    margin-left: 4px;
-    vertical-align: middle;
-  }
+    .lucky-btn:hover {
+      background: #a02a24;
+      transform: scale(1.05);
+    }
 
-  .search-bar {
-    width: 100%;
-    padding: 8px 14px;
-    border: 1.5px solid #ddd;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    margin-bottom: 10px;
-    outline: none;
-  }
-  .search-bar:focus { border-color: #c0392b; }
+    .filters {
+      background: white;
+      padding: 12px 20px;
+      border-bottom: 1px solid #ddd;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
 
-  .count-bar { padding: 10px 20px; font-size: 0.82rem; color: #888; }
+    .filter-group {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
 
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 16px;
-    padding: 0 20px 40px;
-  }
+    .filter-label {
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: #666;
+    }
 
-  .card {
-    background: white;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-    transition: transform 0.15s, box-shadow 0.15s;
-  }
-  .card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.12); }
-  .card.highlight {
-    outline: 3px solid #c0392b;
-    box-shadow: 0 0 0 6px rgba(192,57,43,0.15), 0 8px 24px rgba(0,0,0,0.15);
-    transform: translateY(-4px);
-  }
+    .filter-btn {
+      padding: 6px 12px;
+      border: 1px solid #ddd;
+      background: white;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
 
-  .card-header { padding: 14px 16px 10px; border-bottom: 1px solid #f0ebe4; }
-  .card-title { font-size: 1rem; font-weight: 700; margin-bottom: 6px; line-height: 1.4; }
-  .card-tags { display: flex; flex-wrap: wrap; gap: 4px; }
-  .tag { font-size: 0.7rem; padding: 2px 8px; border-radius: 10px; font-weight: 600; }
-  .tag-region { background: #fef3cd; color: #856404; }
-  .tag-style { background: #d1e7dd; color: #0f5132; }
+    .filter-btn:hover {
+      border-color: #c0392b;
+      color: #c0392b;
+    }
 
-  .card-body { padding: 12px 16px; }
-  .meta { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 10px; font-size: 0.78rem; color: #888; }
+    .filter-btn.active {
+      background: #c0392b;
+      color: white;
+      border-color: #c0392b;
+    }
 
-  .stops { list-style: none; }
-  .stop {
-    display: flex;
-    gap: 10px;
-    padding: 6px 0;
-    border-bottom: 1px dashed #f0ebe4;
-    font-size: 0.83rem;
-    flex-direction: column;
-  }
-  .stop-row { display: flex; gap: 10px; }
-  .stop:last-child { border-bottom: none; }
-  .stop-time { color: #c0392b; font-weight: 700; min-width: 38px; font-size: 0.78rem; padding-top: 1px; }
-  .stop-content { flex: 1; }
-  .stop-name { font-weight: 600; }
-  .stop-desc { color: #888; font-size: 0.76rem; margin-top: 1px; }
+    .count {
+      text-align: center;
+      padding: 12px;
+      font-size: 0.85rem;
+      color: #888;
+    }
 
-  /* Restaurant options */
-  .restaurant-opts {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-    margin-top: 6px;
-  }
-  .rest-opt {
-    padding: 4px 10px;
-    border: 1.5px solid #e0d0c0;
-    border-radius: 14px;
-    font-size: 0.73rem;
-    cursor: pointer;
-    background: #faf7f4;
-    color: #555;
-    transition: all 0.15s;
-    line-height: 1.3;
-  }
-  .rest-opt:hover { border-color: #c0392b; color: #c0392b; background: #fff5f5; }
-  .rest-opt.selected { background: #c0392b; border-color: #c0392b; color: white; font-weight: 600; }
-  .rest-opt-price { font-size: 0.68rem; opacity: 0.8; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px;
+      padding: 20px;
+    }
 
-  .card-footer {
-    padding: 10px 16px;
-    background: #faf7f4;
-    font-size: 0.78rem;
-    color: #666;
-    border-top: 1px solid #f0ebe4;
-  }
-  .tip { color: #c0392b; font-weight: 600; }
-  .warning {
-    margin-top: 6px;
-    padding: 5px 8px;
-    background: #fff3cd;
-    border-left: 3px solid #ffc107;
-    border-radius: 4px;
-    font-size: 0.75rem;
-    color: #856404;
-    font-weight: 600;
-  }
+    .card {
+      background: white;
+      border-radius: 8px;
+      padding: 16px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      transition: all 0.2s;
+      cursor: pointer;
+    }
 
-  /* Lucky modal */
-  .lucky-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.5);
-    z-index: 999;
-    align-items: center;
-    justify-content: center;
-  }
-  .lucky-overlay.show { display: flex; }
-  .lucky-modal {
-    background: white;
-    border-radius: 16px;
-    padding: 28px 24px;
-    max-width: 360px;
-    width: 90%;
-    text-align: center;
-    animation: popIn 0.3s ease;
-  }
-  @keyframes popIn {
-    from { transform: scale(0.8); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
-  }
-  .lucky-emoji { font-size: 3rem; margin-bottom: 8px; }
-  .lucky-modal h2 { font-size: 1.2rem; margin-bottom: 6px; color: #c0392b; }
-  .lucky-modal p { font-size: 0.9rem; color: #666; margin-bottom: 20px; line-height: 1.5; }
-  .lucky-modal-btns { display: flex; gap: 10px; justify-content: center; }
-  .btn-go { background: #c0392b; color: white; border: none; padding: 10px 20px; border-radius: 20px; font-size: 0.9rem; cursor: pointer; font-weight: 700; }
-  .btn-cancel { background: #eee; color: #555; border: none; padding: 10px 20px; border-radius: 20px; font-size: 0.9rem; cursor: pointer; }
+    .card:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      transform: translateY(-2px);
+    }
 
-  .no-result { text-align: center; padding: 60px 20px; color: #aaa; grid-column: 1 / -1; }
+    .card-title {
+      font-weight: 600;
+      font-size: 1.05rem;
+      margin-bottom: 10px;
+      color: #2d2d2d;
+      line-height: 1.4;
+    }
 
-  @media (max-width: 500px) {
-    .grid { grid-template-columns: 1fr; padding: 0 12px 40px; }
-    header h1 { font-size: 1.4rem; }
-  }
-</style>
+    .card-meta {
+      font-size: 0.85rem;
+      color: #666;
+      margin-bottom: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .card-region {
+      display: inline-block;
+      background: #fef3cd;
+      color: #856404;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+
+    .card-stops {
+      font-size: 0.88rem;
+      line-height: 1.6;
+      color: #555;
+      border-top: 1px dashed #eee;
+      padding-top: 10px;
+    }
+
+    .stop-item {
+      padding: 4px 0;
+    }
+
+    .stop-time {
+      color: #c0392b;
+      font-weight: 600;
+      min-width: 50px;
+    }
+
+    .no-result {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 60px 20px;
+      color: #aaa;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal.show {
+      display: flex;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 8px;
+      padding: 24px;
+      max-width: 500px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    .modal-close {
+      float: right;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #999;
+    }
+
+    .modal-close:hover {
+      color: #333;
+    }
+
+    .modal-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+      clear: both;
+    }
+
+    .cost-detail {
+      background: #f5f5f5;
+      padding: 12px;
+      border-radius: 4px;
+      margin-bottom: 12px;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+  </style>
 </head>
 <body>
 
 <header>
   <h1>🗺️ 台灣一日遊行程大全</h1>
-  <p>從板橋 / 土城出發｜台鐵・捷運・公車・巴士｜低預算獵奇路線</p>
-  <button class="lucky-btn" id="luckyBtn">🎲 隨機抽行程</button>
+  <p>從板橋 / 土城出發｜台鐵・捷運・公車・巴士</p>
 </header>
 
-<div class="stats" id="totalStats">載入中…</div>
-<div style="background:#fff8e6;border-bottom:1px solid #f0e0b0;padding:8px 16px;font-size:0.72rem;color:#8a6d1a;text-align:center;line-height:1.5;">
-  💡 價格為<b>估算參考</b>：交通以板橋出發來回計（高鐵抓早鳥～標準票區間），餐費、門票會浮動，實際請以官網/現場為準。
+<div class="toolbar">
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="🔍 搜尋景點、店家、關鍵字…">
+  </div>
+  <button class="lucky-btn" id="luckyBtn">🎲 隨機抽行程</button>
 </div>
 
 <div class="filters">
-  <input class="search-bar" type="text" id="searchInput" placeholder="🔍 搜尋景點、店家、關鍵字…">
   <div class="filter-group">
-    <div class="filter-label">🏠 出發地（自動調整預算）</div>
-    <div class="filter-buttons">
-      <select id="originSelect" style="padding:5px 10px;border:1.5px solid #ccc;border-radius:20px;font-size:0.82rem;cursor:pointer;background:white;color:#555;outline:none;">
-        <option value="板橋">板橋（預設）</option>
-        <option value="土城">土城 +NT$20</option>
-        <option value="三重">三重 +NT$30</option>
-        <option value="新莊">新莊 +NT$35</option>
-        <option value="中和">中和 +NT$25</option>
-        <option value="永和">永和 +NT$25</option>
-        <option value="台北車站">台北車站 -NT$15</option>
-        <option value="新北市政府">新北市政府 +NT$15</option>
-        <option value="淡水">淡水 +NT$60</option>
-        <option value="新店">新店 +NT$40</option>
-        <option value="基隆">基隆 +NT$80</option>
-      </select>
-      <span id="originNote" style="font-size:0.75rem;color:#888;align-self:center;"></span>
-    </div>
+    <span class="filter-label">📍 地區：</span>
+    <button class="filter-btn active" data-filter="region" data-value="all">全部</button>
+    <button class="filter-btn" data-filter="region" data-value="北部">北部</button>
+    <button class="filter-btn" data-filter="region" data-value="中部">中部</button>
+    <button class="filter-btn" data-filter="region" data-value="南部">南部</button>
+    <button class="filter-btn" data-filter="region" data-value="東部">東部</button>
   </div>
+
   <div class="filter-group">
-    <div class="filter-label">📍 地區</div>
-    <div class="filter-buttons">
-      <button class="btn active" data-filter="region" data-value="all">全部</button>
-      <button class="btn" data-filter="region" data-value="北部">北部</button>
-      <button class="btn" data-filter="region" data-value="中部">中部</button>
-      <button class="btn" data-filter="region" data-value="南部">南部</button>
-      <button class="btn" data-filter="region" data-value="東部">東部</button>
-    </div>
-  </div>
-  <div class="filter-group">
-    <div class="filter-label">💰 預算（單人・含來回交通・估算）</div>
-    <div class="filter-buttons">
-      <button class="btn btn-blue active" data-filter="budget" data-value="all">全部</button>
-      <button class="btn btn-blue" data-filter="budget" data-value="low">北部輕旅 &lt;NT$600</button>
-      <button class="btn btn-blue" data-filter="budget" data-value="mid">跨縣中程 NT$600–1200</button>
-      <button class="btn btn-blue" data-filter="budget" data-value="high">高鐵/離島 &gt;NT$1200</button>
-    </div>
-  </div>
-  <div class="filter-group">
-    <div class="filter-label">🚌 交通方式</div>
-    <div class="filter-buttons">
-      <button class="btn btn-green active" data-filter="transport" data-value="all">全部</button>
-      <button class="btn btn-green" data-filter="transport" data-value="捷運">捷運為主</button>
-      <button class="btn btn-green" data-filter="transport" data-value="台鐵">台鐵</button>
-      <button class="btn btn-green" data-filter="transport" data-value="高鐵">高鐵</button>
-      <button class="btn btn-green" data-filter="transport" data-value="公車">公車/客運/巴士</button>
-    </div>
-  </div>
-  <div class="filter-group">
-    <div class="filter-label">👩 安全性</div>
-    <div class="filter-buttons">
-      <button class="btn btn-pink active" data-filter="solo" data-value="all">全部</button>
-      <button class="btn btn-pink" data-filter="solo" data-value="yes">女生獨旅推薦</button>
-    </div>
-  </div>
-  <div class="filter-group">
-    <div class="filter-label">🎭 風格</div>
-    <div class="filter-buttons">
-      <button class="btn active" data-filter="style" data-value="all">全部</button>
-      <button class="btn" data-filter="style" data-value="獵奇怪奇">獵奇怪奇</button>
-      <button class="btn" data-filter="style" data-value="廟宇信仰">廟宇信仰</button>
-      <button class="btn" data-filter="style" data-value="老街歷史">老街歷史</button>
-      <button class="btn" data-filter="style" data-value="自然山林">自然山林</button>
-      <button class="btn" data-filter="style" data-value="海岸漁港">海岸漁港</button>
-      <button class="btn" data-filter="style" data-value="文青藝術">文青藝術</button>
-      <button class="btn" data-filter="style" data-value="美食探店">美食探店</button>
-      <button class="btn" data-filter="style" data-value="夜市闖關">夜市闖關</button>
-    </div>
+    <span class="filter-label">💰 預算：</span>
+    <button class="filter-btn active" data-filter="budget" data-value="all">全部</button>
+    <button class="filter-btn" data-filter="budget" data-value="low">&lt;NT$600</button>
+    <button class="filter-btn" data-filter="budget" data-value="mid">NT$600–1200</button>
+    <button class="filter-btn" data-filter="budget" data-value="high">&gt;NT$1200</button>
   </div>
 </div>
 
-<div class="count-bar" id="countBar"></div>
+<div id="countBar" class="count"></div>
+
 <div class="grid" id="grid"></div>
 
-<!-- Lucky Modal -->
-<div class="lucky-overlay" id="luckyOverlay">
-  <div class="lucky-modal">
-    <div class="lucky-emoji">🎲</div>
-    <h2 id="luckyTitle"></h2>
-    <p id="luckyDesc"></p>
-    <div class="lucky-modal-btns">
-      <button class="btn-cancel" id="luckyCancel">再抽一次</button>
-      <button class="btn-go" id="luckyGo">就是它！</button>
-    </div>
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <span class="modal-close" onclick="closeModal()">&times;</span>
+    <div id="modalBody"></div>
   </div>
 </div>
 
@@ -40964,203 +40912,166 @@ const itineraries = [
   },
 ];
 
-// 起點資料：各起點相對板橋的額外費用（單程，加在預算上）
-const originData = {
-  "板橋": { extra: 0, note: "" },
-  "土城": { extra: 20, note: "捷運到板橋+NT$20" },
-  "三重": { extra: 30, note: "捷運約NT$30" },
-  "新莊": { extra: 35, note: "捷運約NT$35" },
-  "中和": { extra: 25, note: "捷運約NT$25" },
-  "永和": { extra: 25, note: "捷運約NT$25" },
-  "台北車站": { extra: -15, note: "比板橋省約NT$15" },
-  "新北市政府": { extra: 15, note: "捷運約NT$15" },
-  "淡水": { extra: 60, note: "捷運約NT$60" },
-  "新店": { extra: 40, note: "捷運約NT$40" },
-  "基隆": { extra: 80, note: "台鐵約NT$50+轉車" },
+let searchQuery = "";
+let filterRegion = "all";
+let filterBudget = "all";
+
+const budgetLevels = {
+  "low": { min: 0, max: 600 },
+  "mid": { min: 600, max: 1200 },
+  "high": { min: 1200, max: 999999 }
 };
 
-let activeOrigin = "板橋";
-
-function parseBudgetRange(budgetStr) {
+function parseBudget(budgetStr) {
   const match = budgetStr.match(/NT\$(\d+)[–-](\d+)/);
-  if (!match) return null;
-  return { low: parseInt(match[1]), high: parseInt(match[2]) };
+  if (match) {
+    return { low: parseInt(match[1]), high: parseInt(match[2]) };
+  }
+  return { low: 0, high: 0 };
 }
 
-function getAdjustedBudget(item) {
-  const extra = originData[activeOrigin]?.extra || 0;
-  if (extra === 0) return item.budget;
-  const range = parseBudgetRange(item.budget);
-  if (!range) return item.budget;
-  const newLow = Math.max(0, range.low + extra);
-  const newHigh = range.high + extra;
-  return `NT$${newLow}–${newHigh}`;
-}
+function renderCards() {
+  const grid = document.getElementById('grid');
+  const q = searchQuery.toLowerCase();
 
-let activeRegion = "all";
-let activeBudget = "all";
-let activeTransport = "all";
-let activeStyle = "all";
-let activeSolo = "all";
-let searchQuery = "";
-let luckyTarget = null;
+  const filtered = itineraries.filter(item => {
+    // 搜尋篩選
+    if (q && !item.title.toLowerCase().includes(q) &&
+        !item.region.toLowerCase().includes(q) &&
+        !item.stops.some(s => s.name.toLowerCase().includes(q))) {
+      return false;
+    }
 
-function getFiltered() {
-  return itineraries.filter(item => {
-    const regionOk = activeRegion === "all" || item.region === activeRegion;
-    const budgetOk = activeBudget === "all" || item.budgetLevel === activeBudget;
-    const transportOk = activeTransport === "all" || (item.transportTypes && item.transportTypes.includes(activeTransport));
-    const styleOk = activeStyle === "all" || item.style.includes(activeStyle);
-    const soloOk = activeSolo === "all" || (activeSolo === "yes" && item.soloFriendly);
-    const q = searchQuery.toLowerCase();
-    const textOk = !q ||
-      item.title.toLowerCase().includes(q) ||
-      item.stops.some(s => s.name.toLowerCase().includes(q) || (s.desc||"").toLowerCase().includes(q)) ||
-      (item.tip || "").toLowerCase().includes(q);
-    return regionOk && budgetOk && transportOk && styleOk && soloOk && textOk;
+    // 地區篩選
+    if (filterRegion !== "all" && item.region !== filterRegion) {
+      return false;
+    }
+
+    // 預算篩選
+    if (filterBudget !== "all") {
+      const budget = parseBudget(item.budget);
+      const range = budgetLevels[filterBudget];
+      const mid = (budget.low + budget.high) / 2;
+      if (mid < range.min || mid > range.max) {
+        return false;
+      }
+    }
+
+    return true;
   });
-}
-
-function renderCards(highlightId) {
-  const grid = document.getElementById("grid");
-  const countBar = document.getElementById("countBar");
-  const filtered = getFiltered();
-  countBar.textContent = `顯示 ${filtered.length} 條行程（共 ${itineraries.length} 條）`;
 
   if (filtered.length === 0) {
-    grid.innerHTML = `<div class="no-result">😢 沒有符合的行程，換個條件試試？</div>`;
+    grid.innerHTML = '<div class="no-result">😢 沒有符合的行程，換個條件試試</div>';
+    document.getElementById('countBar').textContent = `顯示 0 條行程`;
     return;
   }
 
   grid.innerHTML = filtered.map(item => {
-    const isHighlight = highlightId && item.id === highlightId;
-    const stopsHtml = item.stops.map((s, si) => {
-      const hasOpts = s.options && s.options.length > 0;
-      const optsHtml = hasOpts ? `
-        <div class="restaurant-opts">
-          ${s.options.map((opt, oi) => `
-            <button class="rest-opt" data-card="${item.id}" data-stop="${si}" data-opt="${oi}" onclick="selectOpt(this)">
-              <span>${opt.name}</span>
-              <span class="rest-opt-price"> ${opt.price}</span>
-            </button>
-          `).join("")}
-        </div>` : "";
-      return `
-        <li class="stop">
-          <div class="stop-row">
-            <span class="stop-time">${s.time}</span>
-            <div class="stop-content">
-              <div class="stop-name">${s.name}</div>
-              <div class="stop-desc">${s.desc}</div>
-            </div>
-          </div>
-          ${optsHtml}
-        </li>`;
-    }).join("");
-
-    const warningsHtml = (item.closedOn || []).map(w => `<div class="warning">📅 ${w}</div>`).join("");
+    const budget = parseBudget(item.budget);
+    const avgBudget = Math.round((budget.low + budget.high) / 2);
 
     return `
-      <div class="card ${isHighlight ? 'highlight' : ''}" id="card-${item.id}">
-        <div class="card-header">
-          <div class="card-title">${item.title}${item.soloFriendly ? '<span class="solo-badge">👩 獨旅推薦</span>' : ''}</div>
-          <div class="card-tags">
-            <span class="tag tag-region">${item.region}</span>
-            ${item.style.map(s => `<span class="tag tag-style">${s}</span>`).join("")}
-          </div>
+      <div class="card" onclick="showDetail(${item.id})">
+        <div class="card-title">${item.title}</div>
+        <div class="card-meta">
+          <span>🕐 ${item.duration}</span>
+          <span>💰 NT$${avgBudget}</span>
         </div>
-        <div class="card-body">
-          <div class="meta">
-            <span>🕐 ${item.duration}</span>
-            <span>💰 ${getAdjustedBudget(item)}${activeOrigin !== '板橋' ? ' <small style="color:#e67e22">含起點</small>' : ''}</span>
-            <span>🚌 ${item.transport}</span>
-          </div>
-          <ul class="stops">${stopsHtml}</ul>
+        <span class="card-region">${item.region}</span>
+        <div class="card-stops">
+          ${item.stops.slice(0, 4).map(s => `
+            <div class="stop-item">
+              <span class="stop-time">${s.time}</span> ${s.name}
+            </div>
+          `).join('')}
+          ${item.stops.length > 4 ? `<div class="stop-item">... 還有 ${item.stops.length - 4} 站</div>` : ''}
         </div>
-        <div class="card-footer">
-          <span class="tip">${item.tip}</span>
-          ${warningsHtml}
-        </div>
-      </div>`;
-  }).join("");
+      </div>
+    `;
+  }).join('');
+
+  document.getElementById('countBar').textContent = `顯示 ${filtered.length} 條行程（共 ${itineraries.length} 條）`;
 }
 
-function selectOpt(btn) {
-  const card = btn.dataset.card;
-  const stop = btn.dataset.stop;
-  document.querySelectorAll(`.rest-opt[data-card="${card}"][data-stop="${stop}"]`).forEach(b => b.classList.remove("selected"));
-  btn.classList.add("selected");
+function showDetail(id) {
+  const item = itineraries.find(i => i.id === id);
+  if (!item) return;
+
+  const budget = parseBudget(item.budget);
+  const avgBudget = Math.round((budget.low + budget.high) / 2);
+
+  const html = `
+    <div class="modal-title">${item.title}</div>
+    <div class="cost-detail">
+      <strong>⏱️ 時間：</strong> ${item.duration}<br>
+      <strong>💰 預算：</strong> ${item.budget} (估計：NT$${avgBudget})<br>
+      <strong>🌍 地區：</strong> ${item.region}<br>
+      <strong>🚌 交通：</strong> ${item.transport}
+    </div>
+    <div style="margin-top: 16px;">
+      <strong>🚩 行程安排：</strong>
+      <div style="margin-top: 8px;">
+        ${item.stops.map(s => `<div style="padding: 4px 0;">
+          <span style="color: #c0392b; font-weight: 600; min-width: 50px;">${s.time}</span>
+          <strong>${s.name}</strong><br>
+          <span style="color: #888; font-size: 0.9rem;">${s.desc}</span>
+        </div>`).join('')}
+      </div>
+    </div>
+    <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid #eee;">
+      <strong>💡 貼士：</strong> ${item.tip}
+    </div>
+  `;
+
+  document.getElementById('modalBody').innerHTML = html;
+  document.getElementById('modal').classList.add('show');
 }
 
-// Filter button logic
-document.querySelectorAll(".btn[data-filter]").forEach(btn => {
-  btn.addEventListener("click", () => {
-    const filter = btn.dataset.filter;
-    document.querySelectorAll(`.btn[data-filter="${filter}"]`).forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
-    if (filter === "region") activeRegion = btn.dataset.value;
-    if (filter === "budget") activeBudget = btn.dataset.value;
-    if (filter === "transport") activeTransport = btn.dataset.value;
-    if (filter === "style") activeStyle = btn.dataset.value;
-    if (filter === "solo") activeSolo = btn.dataset.value;
-    renderCards();
-  });
-});
+function closeModal() {
+  document.getElementById('modal').classList.remove('show');
+}
 
-document.getElementById("searchInput").addEventListener("input", e => {
+// 搜尋
+document.getElementById('searchInput').addEventListener('input', e => {
   searchQuery = e.target.value;
   renderCards();
 });
 
-document.getElementById("originSelect").addEventListener("change", e => {
-  activeOrigin = e.target.value;
-  const note = originData[activeOrigin]?.note || "";
-  document.getElementById("originNote").textContent = note;
-  renderCards();
-});
+// 篩選按鈕
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const filter = btn.dataset.filter;
+    const value = btn.dataset.value;
 
-// Lucky draw
-document.getElementById("luckyBtn").addEventListener("click", () => {
-  const filtered = getFiltered();
-  if (filtered.length === 0) return alert("目前篩選結果是空的，先放寬條件再抽！");
-  luckyTarget = filtered[Math.floor(Math.random() * filtered.length)];
-  document.getElementById("luckyTitle").textContent = luckyTarget.title;
-  document.getElementById("luckyDesc").textContent =
-    `${luckyTarget.region} ｜ ${luckyTarget.budget} ｜ ${luckyTarget.duration}\n交通：${luckyTarget.transport}`;
-  document.getElementById("luckyOverlay").classList.add("show");
-});
+    // 移除同組的 active
+    document.querySelectorAll(`[data-filter="${filter}"]`).forEach(b => b.classList.remove('active'));
 
-document.getElementById("luckyCancel").addEventListener("click", () => {
-  // Re-draw
-  const filtered = getFiltered();
-  luckyTarget = filtered[Math.floor(Math.random() * filtered.length)];
-  document.getElementById("luckyTitle").textContent = luckyTarget.title;
-  document.getElementById("luckyDesc").textContent =
-    `${luckyTarget.region} ｜ ${luckyTarget.budget} ｜ ${luckyTarget.duration}\n交通：${luckyTarget.transport}`;
-});
+    // 設置當前為 active
+    btn.classList.add('active');
 
-document.getElementById("luckyGo").addEventListener("click", () => {
-  document.getElementById("luckyOverlay").classList.remove("show");
-  // Reset all filters, render with highlight
-  activeRegion = activeBudget = activeTransport = activeStyle = "all";
-  searchQuery = "";
-  document.querySelectorAll(".btn[data-filter]").forEach(b => {
-    b.classList.toggle("active", b.dataset.value === "all");
+    // 更新篩選
+    if (filter === 'region') filterRegion = value;
+    if (filter === 'budget') filterBudget = value;
+
+    renderCards();
   });
-  document.getElementById("searchInput").value = "";
-  renderCards(luckyTarget.id);
-  setTimeout(() => {
-    const el = document.getElementById(`card-${luckyTarget.id}`);
-    if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
-  }, 100);
 });
 
-document.getElementById("luckyOverlay").addEventListener("click", (e) => {
-  if (e.target === e.currentTarget) e.currentTarget.classList.remove("show");
+// 隨機推薦
+document.getElementById('luckyBtn').addEventListener('click', () => {
+  const random = itineraries[Math.floor(Math.random() * itineraries.length)];
+  showDetail(random.id);
 });
 
-document.getElementById("totalStats").textContent = `目前收錄 ${itineraries.length.toLocaleString()} 條行程｜目標 1,000 條達成 🎉`;
+// 關閉 modal 當點擊背景
+document.getElementById('modal').addEventListener('click', e => {
+  if (e.target === document.getElementById('modal')) {
+    closeModal();
+  }
+});
+
 renderCards();
 </script>
+
 </body>
 </html>
