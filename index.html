@@ -41041,6 +41041,32 @@ function showDetail(id) {
       <strong>🌍 地區：</strong> ${item.region}<br>
       <strong>🚌 交通：</strong> ${item.transport}
     </div>
+
+    <div style="background: linear-gradient(135deg, #fff5f7, #f0e6ff); padding: 16px; border-radius: 8px; margin: 12px 0; border-left: 4px solid #c0392b;">
+      <strong>💰 費用明細（每日）</strong><br>
+      <div style="margin-top: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 0.9rem;">
+        <div>
+          <strong style="color: #c0392b;">🚌 交通</strong><br>
+          約 NT$${Math.round(avgBudget * 30 * 0.3).toLocaleString()}
+        </div>
+        <div>
+          <strong style="color: #c0392b;">🍽️ 餐飲</strong><br>
+          約 NT$${Math.round(avgBudget * 30 * 0.4).toLocaleString()}
+        </div>
+        <div>
+          <strong style="color: #c0392b;">🎫 景點門票</strong><br>
+          約 NT$${Math.round(avgBudget * 30 * 0.2).toLocaleString()}
+        </div>
+        <div>
+          <strong style="color: #c0392b;">🏨 住宿/其他</strong><br>
+          約 NT$${Math.round(avgBudget * 30 * 0.1).toLocaleString()}
+        </div>
+      </div>
+      <div style="margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(192,57,43,0.2); text-align: center;">
+        <strong style="color: #c0392b; font-size: 1.1rem;">💵 每日預算：NT$${Math.round(avgBudget * 30).toLocaleString()}</strong>
+      </div>
+    </div>
+
     <div style="margin-top: 16px;">
       <strong>🚩 行程安排：</strong>
       <div style="margin-top: 8px;">
