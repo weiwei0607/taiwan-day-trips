@@ -41001,10 +41001,11 @@ function renderCards() {
   grid.innerHTML = filtered.map(item => {
     const adj = getAdjustedBudget(item);
     const avgDailyBudget = Math.round((adj.low + adj.high) / 2);
-    const durationDays = parseInt(item.duration);
-    const totalBudget = avgDailyBudget * durationDays;
+    const durationHours = parseInt(item.duration);
+    const dayFraction = durationHours / 24;  // 8小時 = 1/3天
+    const totalBudget = Math.round(avgDailyBudget * dayFraction);
     const extra = departureCosts[activeDeparture] || 0;
-    const transportCost = Math.round(avgDailyBudget * 0.3 * durationDays) + extra;
+    const transportCost = Math.round(avgDailyBudget * 0.3 * dayFraction) + extra;
 
     return `
       <div class="card" onclick="showDetail(${item.id})">
@@ -41038,22 +41039,23 @@ function showDetail(id) {
 
   const budget = parseBudget(item.budget);
   const avgDailyBudget = Math.round((budget.low + budget.high) / 2);
-  const durationDays = parseInt(item.duration);
-  const totalBudget = avgDailyBudget * durationDays;
+  const durationHours = parseInt(item.duration);
+  const dayFraction = durationHours / 24;
+  const totalBudget = Math.round(avgDailyBudget * dayFraction);
   const extra = departureCosts[activeDeparture] || 0;
-  const transportCost = Math.round(avgDailyBudget * 0.3 * durationDays) + extra;
+  const transportCost = Math.round(avgDailyBudget * 0.3 * dayFraction) + extra;
 
   const html = `
     <div class="modal-title">${item.title}</div>
     <div class="cost-detail">
       <strong>⏱️ 時間：</strong> ${item.duration}<br>
-      <strong>💰 每日預算：</strong> NT$${avgDailyBudget} × ${durationDays} 天<br>
+      <strong>💰 每日預算：</strong> NT$${avgDailyBudget} (${durationHours}小時行程)<br>
       <strong>🌍 地區：</strong> ${item.region}<br>
       <strong>🚌 交通：</strong> ${item.transport} → <strong>約 NT$${transportCost.toLocaleString()}</strong>
     </div>
 
     <div style="background: linear-gradient(135deg, #fff5f7, #f0e6ff); padding: 16px; border-radius: 8px; margin: 12px 0; border-left: 4px solid #c0392b;">
-      <strong>💰 費用明細（共 ${durationDays} 天）</strong><br>
+      <strong>💰 費用明細（${durationHours}小時行程）</strong><br>
       <div style="margin-top: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 0.9rem;">
         <div>
           <strong style="color: #c0392b;">🚌 交通</strong><br>
@@ -41061,15 +41063,15 @@ function showDetail(id) {
         </div>
         <div>
           <strong style="color: #c0392b;">🍽️ 餐飲</strong><br>
-          約 NT$${Math.round(totalBudget * 0.4).toLocaleString()}
+          約 NT$${Math.round((avgDailyBudget * dayFraction) * 0.4).toLocaleString()}
         </div>
         <div>
           <strong style="color: #c0392b;">🎫 景點門票</strong><br>
-          約 NT$${Math.round(totalBudget * 0.2).toLocaleString()}
+          約 NT$${Math.round((avgDailyBudget * dayFraction) * 0.2).toLocaleString()}
         </div>
         <div>
           <strong style="color: #c0392b;">🏨 住宿/其他</strong><br>
-          約 NT$${Math.round(totalBudget * 0.1).toLocaleString()}
+          約 NT$${Math.round((avgDailyBudget * dayFraction) * 0.1).toLocaleString()}
         </div>
       </div>
       <div style="margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(192,57,43,0.2); text-align: center;">
