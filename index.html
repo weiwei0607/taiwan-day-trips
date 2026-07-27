@@ -263,6 +263,18 @@
     <button class="filter-btn" data-filter="budget" data-value="mid">NT$600–1200</button>
     <button class="filter-btn" data-filter="budget" data-value="high">&gt;NT$1200</button>
   </div>
+
+<div class="filter-group">
+    <span class="filter-label">🏠 出發地：</span>
+    <select id="departureSelect" style="padding: 6px 12px; border: 1px solid #ddd; border-radius: 4px; cursor: pointer; font-size: 0.85rem;">
+      <option value="taipei">台北（預設）</option>
+      <option value="new_taipei">新北</option>
+      <option value="taichung">台中 +NT$500</option>
+      <option value="tainan">台南 +NT$800</option>
+      <option value="kaohsiung">高雄 +NT$1000</option>
+      <option value="hsinchu">新竹 +NT$300</option>
+    </select>
+  </div>
 </div>
 
 <div id="countBar" class="count"></div>
@@ -40913,6 +40925,26 @@ const itineraries = [
 ];
 
 let searchQuery = "";
+
+const departureCosts = {
+  "taipei": 0,
+  "new_taipei": 0,
+  "taichung": 500,
+  "tainan": 800,
+  "kaohsiung": 1000,
+  "hsinchu": 300
+};
+
+let activeDeparture = "taipei";
+
+function getAdjustedBudget(item) {
+  const budget = parseBudget(item.budget);
+  const extra = departureCosts[activeDeparture] || 0;
+  const low = Math.max(0, budget.low + Math.ceil(extra / 30)); 
+  const high = budget.high + Math.ceil(extra / 30);
+  return { low, high };
+}
+
 let filterRegion = "all";
 let filterBudget = "all";
 
@@ -40967,15 +40999,16 @@ function renderCards() {
   }
 
   grid.innerHTML = filtered.map(item => {
-    const budget = parseBudget(item.budget);
-    const avgBudget = Math.round((budget.low + budget.high) / 2);
+    const adj = getAdjustedBudget(item);
+    const avgBudget = Math.round((adj.low + adj.high) / 2);
+    const extra = departureCosts[activeDeparture] || 0;
 
     return `
       <div class="card" onclick="showDetail(${item.id})">
         <div class="card-title">${item.title}</div>
         <div class="card-meta">
           <span>🕐 ${item.duration}</span>
-          <span>💰 NT$${avgBudget}</span>
+          <span>💰 NT$${avgBudget}</span>${extra > 0 ? `<span style="font-size: 0.75rem; color: #e67e22;">含出發地調整</span>` : ''}
         </div>
         <span class="card-region">${item.region}</span>
         <div class="card-stops">
@@ -41034,7 +41067,13 @@ function closeModal() {
 // 搜尋
 document.getElementById('searchInput').addEventListener('input', e => {
   searchQuery = e.target.value;
+  
+document.getElementById('departureSelect').addEventListener('change', e => {
+  activeDeparture = e.target.value;
   renderCards();
+});
+
+renderCards();
 });
 
 // 篩選按鈕
@@ -41053,7 +41092,13 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
     if (filter === 'region') filterRegion = value;
     if (filter === 'budget') filterBudget = value;
 
-    renderCards();
+    
+document.getElementById('departureSelect').addEventListener('change', e => {
+  activeDeparture = e.target.value;
+  renderCards();
+});
+
+renderCards();
   });
 });
 
@@ -41068,6 +41113,12 @@ document.getElementById('modal').addEventListener('click', e => {
   if (e.target === document.getElementById('modal')) {
     closeModal();
   }
+});
+
+
+document.getElementById('departureSelect').addEventListener('change', e => {
+  activeDeparture = e.target.value;
+  renderCards();
 });
 
 renderCards();
